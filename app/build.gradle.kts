@@ -4,11 +4,12 @@ plugins {
 }
 
 android {
-    namespace = "com.example.kotlin.mypokedexapp"
+
+    namespace = "com.example.kotlin.mydragonballapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.kotlin.mypokedexapp"
+        applicationId = "com.example.kotlin.mydragonballapp"
         minSdk = 21
         targetSdk = 34
         versionCode = 1
