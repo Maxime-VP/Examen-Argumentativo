@@ -13,7 +13,6 @@ import com.example.kotlin.mydragonballapp.databinding.ItemCharacterBinding
 import com.example.kotlin.mydragonballapp.framework.views.activities.CharacterDetailActivity
 import com.example.kotlin.mydragonballapp.utils.Constants
 
-
 class DragonBallViewHolder(private val binding: ItemCharacterBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: CharacterBase, context: Context) {

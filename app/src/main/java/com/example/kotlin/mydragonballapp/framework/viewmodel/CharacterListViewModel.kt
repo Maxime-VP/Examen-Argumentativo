@@ -1,34 +1,43 @@
 package com.example.kotlin.mydragonballapp.framework.viewmodel
 
-import CharacterListRequirement
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.kotlin.mydragonballapp.data.network.model.CharactersObject
+import com.example.kotlin.mydragonballapp.data.network.model.CharacterBase
+import CharacterListRequirement
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import android.util.Log
 
 class CharacterListViewModel : ViewModel() {
 
-    val charactersLiveData = MutableLiveData<CharactersObject?>()
+    val charactersLiveData = MutableLiveData<List<CharacterBase>>()
     private val characterListRequirement = CharacterListRequirement()
+    private var currentPage = 1
+    private var isLoading = false
 
-    fun getCharacterList(page: Int, limit: Int) {
+    fun getCharacterList(limit: Int) {
+        if (isLoading) return
+        isLoading = true
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val result: CharactersObject? = characterListRequirement(page, limit)
+                val result = characterListRequirement(currentPage, limit)
                 if (result != null) {
-                    Log.d("CharacterListViewModel", "API response: ${result.items.size} characters loaded.")
+                    val currentList = charactersLiveData.value?.toMutableList() ?: mutableListOf()
+                    currentList.addAll(result.items)
                     CoroutineScope(Dispatchers.Main).launch {
-                        charactersLiveData.postValue(result)
+                        charactersLiveData.postValue(currentList)
+                        currentPage++
+                        isLoading = false
                     }
                 } else {
                     Log.e("CharacterListViewModel", "API response: No characters returned.")
+                    isLoading = false
                 }
             } catch (e: Exception) {
                 Log.e("CharacterListViewModel", "Error fetching characters: ${e.message}")
+                isLoading = false
             }
         }
     }

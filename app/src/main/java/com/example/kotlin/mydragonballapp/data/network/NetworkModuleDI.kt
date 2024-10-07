@@ -4,7 +4,6 @@ import com.example.kotlin.mydragonballapp.utils.Constants
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.security.cert.CertificateException
 import javax.net.ssl.*
 
 object NetworkModuleDI {

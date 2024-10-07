@@ -4,42 +4,28 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.kotlin.mydragonballapp.data.network.model.CharacterBase
 import com.example.kotlin.mydragonballapp.databinding.ItemCharacterBinding
+import com.example.kotlin.mydragonballapp.framework.adapters.viewholders.DragonBallViewHolder
 
-class CharacterAdapter : RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
+class CharacterAdapter(private val context: Context) : RecyclerView.Adapter<DragonBallViewHolder>() {
 
-    private var data: List<CharacterBase> = emptyList()
-    private lateinit var context: Context
+    private var data: MutableList<CharacterBase> = mutableListOf()
 
-    // Método para configurar los datos en el adaptador
-    fun setData(newData: List<CharacterBase>, context: Context) {
-        this.data = newData
-        this.context = context
+    fun setData(newData: List<CharacterBase>) {
+        data.clear() // Limpia la lista anterior si quieres reemplazarla por completo
+        data.addAll(newData)
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DragonBallViewHolder {
         val binding = ItemCharacterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CharacterViewHolder(binding)
+        return DragonBallViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
-        holder.bind(data[position])
+    override fun onBindViewHolder(holder: DragonBallViewHolder, position: Int) {
+        holder.bind(data[position], context)
     }
 
     override fun getItemCount(): Int = data.size
-
-    inner class CharacterViewHolder(private val binding: ItemCharacterBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(character: CharacterBase) {
-            // Asignar el nombre del personaje al TextView
-            binding.TVName.text = character.name
-
-            // Cargar la imagen usando Glide
-            Glide.with(context)
-                .load(character.image)
-                .into(binding.IVPhoto)
-        }
-    }
 }
