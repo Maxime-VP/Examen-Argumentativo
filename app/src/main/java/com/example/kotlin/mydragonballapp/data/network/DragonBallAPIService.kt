@@ -3,6 +3,7 @@ package com.example.kotlin.mydragonballapp.data.network
 import com.example.kotlin.mydragonballapp.data.network.model.CharacterBase
 import com.example.kotlin.mydragonballapp.data.network.model.CharacterListResponse
 import com.example.kotlin.mydragonballapp.data.network.model.CharactersObject
+import com.example.kotlin.mydragonballapp.data.network.model.PlanetResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -26,4 +27,7 @@ interface DragonBallAPIService {
     suspend fun getCharactersByName(
         @Query("name") name: String
     ): Response<CharacterListResponse> // Cambiado para reflejar que devuelve un array
+
+    @GET("planets")
+    suspend fun getPlanets(): Response<PlanetResponse>
 }

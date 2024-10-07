@@ -7,4 +7,7 @@ object Constants {
     const val MENU_CHARACTER_LIST = "CHARACTER_LIST"
     const val MENU_SEARCH = "SEARCH"
     const val CHARACTER_ID = "CHARACTER_ID"
+    const val MENU_PLANET_LIST = "PLANET_LIST" // Nuevo valor para planetas
+
+
 }

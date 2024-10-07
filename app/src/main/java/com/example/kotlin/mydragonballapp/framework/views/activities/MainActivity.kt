@@ -9,6 +9,7 @@ import com.example.kotlin.mydragonballapp.databinding.ActivityMainBinding
 import com.example.kotlin.mydragonballapp.framework.viewmodel.MainViewModel
 import com.example.kotlin.mydragonballapp.framework.views.fragments.CharacterListFragment
 import com.example.kotlin.mydragonballapp.framework.views.fragments.SearchFragment
+import com.example.kotlin.mydragonballapp.framework.views.fragments.PlanetListFragment // Importa el nuevo fragmento
 import com.example.kotlin.mydragonballapp.utils.Constants
 
 class MainActivity : AppCompatActivity() {
@@ -32,7 +33,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showInitialFragment() {
-        // Inicializamos currentFragment con el fragmento de lista de personajes
         val characterListFragment = CharacterListFragment()
         currentFragment = characterListFragment
         supportFragmentManager.beginTransaction()
@@ -50,10 +50,13 @@ class MainActivity : AppCompatActivity() {
         binding.appBarMain.llSearch.setOnClickListener {
             selectMenuOption(Constants.MENU_SEARCH)
         }
+
+        binding.appBarMain.llPlanetas.setOnClickListener {
+            selectMenuOption(Constants.MENU_PLANET_LIST)
+        }
     }
 
     private fun exchangeCurrentFragment(newFragment: Fragment, newMenuOption: String) {
-        // Validar si currentFragment es null para evitar crasheos
         if (currentFragment == null || newFragment::class != currentFragment!!::class) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.nav_host_fragment_content_main, newFragment)
@@ -72,6 +75,7 @@ class MainActivity : AppCompatActivity() {
         when (menuOption) {
             Constants.MENU_CHARACTER_LIST -> exchangeCurrentFragment(CharacterListFragment(), Constants.MENU_CHARACTER_LIST)
             Constants.MENU_SEARCH -> exchangeCurrentFragment(SearchFragment(), Constants.MENU_SEARCH)
+            Constants.MENU_PLANET_LIST -> exchangeCurrentFragment(PlanetListFragment(), Constants.MENU_PLANET_LIST) // Nuevo caso
         }
     }
 }

@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.kotlin.mydragonballapp.data.network.model.CharacterBase
 import com.example.kotlin.mydragonballapp.data.network.model.CharacterListResponse
 import com.example.kotlin.mydragonballapp.data.network.model.CharactersObject
+import com.example.kotlin.mydragonballapp.data.network.model.PlanetResponse
 
 class DragonBallApiClient {
     private val api: DragonBallAPIService = NetworkModuleDI()
@@ -50,6 +51,21 @@ class DragonBallApiClient {
             }
         } catch (e: Exception) {
             Log.e("API_EXCEPTION", "Exception occurred: ${e.message}")
+            null
+        }
+    }
+
+    suspend fun getPlanets(): PlanetResponse? {
+        return try {
+            val response = api.getPlanets()
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                Log.e("API_ERROR", "API call failed: ${response.code()} - ${response.message()}")
+                null
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
             null
         }
     }
