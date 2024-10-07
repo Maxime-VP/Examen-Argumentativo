@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:id="@+id/llPokedex"
+        android:id="@+id/llPersonajes"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="center"
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Pokedex"
+            android:text="Personajes"
             android:textColor="@color/semiWhite"
             android:textStyle="bold" />
     </LinearLayout>

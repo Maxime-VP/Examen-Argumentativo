@@ -3,8 +3,8 @@ package com.example.kotlin.mydragonballapp.framework.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.kotlin.mydragonballapp.data.network.CharacterListRequirement
 import com.example.kotlin.mydragonballapp.data.network.model.CharacterBase
-import CharacterListRequirement
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,6 +38,23 @@ class CharacterListViewModel : ViewModel() {
             } catch (e: Exception) {
                 Log.e("CharacterListViewModel", "Error fetching characters: ${e.message}")
                 isLoading = false
+            }
+        }
+    }
+
+    fun searchCharactersByName(name: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val result = characterListRequirement.searchCharactersByName(name)
+                CoroutineScope(Dispatchers.Main).launch {
+                    if (result != null) {
+                        charactersLiveData.postValue(result)
+                    } else {
+                        Log.e("CharacterListViewModel", "No characters found.")
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("CharacterListViewModel", "Error searching characters: ${e.message}")
             }
         }
     }
