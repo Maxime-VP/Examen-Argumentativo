@@ -7,14 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.kotlin.mydragonballapp.R
-import com.example.kotlin.mydragonballapp.data.network.model.CharacterBase
-import com.example.kotlin.mydragonballapp.data.network.model.CharactersObject
 import com.example.kotlin.mydragonballapp.databinding.FragmentCharacterListBinding
 import com.example.kotlin.mydragonballapp.framework.adapters.CharacterAdapter
 import com.example.kotlin.mydragonballapp.framework.viewmodel.CharacterListViewModel
-
 
 class CharacterListFragment : Fragment() {
 
@@ -22,9 +17,7 @@ class CharacterListFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: CharacterListViewModel
-
-    private lateinit var recyclerView: RecyclerView
-    private val adapter: CharacterAdapter = CharacterAdapter()
+    private lateinit var adapter: CharacterAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,39 +25,28 @@ class CharacterListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewModel = ViewModelProvider(this)[CharacterListViewModel::class.java]
-
         _binding = FragmentCharacterListBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        initializeComponents(root)
+        adapter = CharacterAdapter()
+        binding.RVCharacter.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.RVCharacter.adapter = adapter
+
         initializeObservers()
-        viewModel.getCharacterList(1, 10) // Llamada inicial con página 1 y 10 personajes por página
+        viewModel.getCharacterList(1, 10)
 
-        return root
+        return binding.root
+    }
+
+    private fun initializeObservers() {
+        viewModel.charactersLiveData.observe(viewLifecycleOwner) { charactersObject ->
+            charactersObject?.let {
+                adapter.setData(it.items, requireContext())
+            }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun initializeComponents(root: View) {
-        recyclerView = root.findViewById(
-            R.id.RVCharacter)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
-        recyclerView.adapter = adapter
-    }
-
-    private fun initializeObservers() {
-        viewModel.charactersLiveData.observe(viewLifecycleOwner) { charactersObject: CharactersObject? ->
-            if (charactersObject != null) {
-                setUpRecyclerView(charactersObject.items)
-            }
-        }
-    }
-
-    private fun setUpRecyclerView(dataForList: ArrayList<CharacterBase>) {
-        adapter.setData(dataForList, requireContext())
     }
 }

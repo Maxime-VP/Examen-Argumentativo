@@ -2,7 +2,7 @@ package com.example.kotlin.mydragonballapp.utils
 
 object Constants {
     // Base URL de la API de Dragon Ball
-    const val BASE_URL = "https://www.dragonball-api.com/api/"
+    const val BASE_URL = "https://dragonball-api.com/api/"
 
     // Valores específicos para la API y la aplicación
     const val MAX_CHARACTERS_PER_PAGE = 10

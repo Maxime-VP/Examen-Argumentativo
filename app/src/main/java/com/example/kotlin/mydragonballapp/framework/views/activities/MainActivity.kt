@@ -1,26 +1,20 @@
 package com.example.kotlin.mydragonballapp.framework.views.activities
 
 import android.os.Bundle
-import com.example.kotlin.mydragonballapp.framework.viewmodel.MainViewModel
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.kotlin.mydragonballapp.R
 import com.example.kotlin.mydragonballapp.databinding.ActivityMainBinding
+import com.example.kotlin.mydragonballapp.framework.viewmodel.MainViewModel
 import com.example.kotlin.mydragonballapp.framework.views.fragments.CharacterListFragment
-import com.example.kotlin.mydragonballapp.framework.views.fragments.SearchFragment
 import com.example.kotlin.mydragonballapp.utils.Constants
-
-
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
     private val viewModel: MainViewModel by viewModels()
-
     private lateinit var currentFragment: Fragment
-
     private var currentMenuOption: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         initializeObservers()
         initializeListeners()
 
-        // Mostrar el fragmento de lista de personajes al iniciar
+        // Mostrar el fragmento de lista de personajes al iniciar la actividad principal
         exchangeCurrentFragment(CharacterListFragment(), Constants.MENU_CHARACTER_LIST)
     }
 
@@ -72,7 +66,6 @@ class MainActivity : AppCompatActivity() {
 
         when (menuOption) {
             Constants.MENU_CHARACTER_LIST -> exchangeCurrentFragment(CharacterListFragment(), Constants.MENU_CHARACTER_LIST)
-            Constants.MENU_SEARCH -> exchangeCurrentFragment(SearchFragment(), Constants.MENU_SEARCH)
         }
     }
 }
